@@ -18,7 +18,9 @@
 package com.orientechnologies.spatial.shape;
 
 import com.orientechnologies.orient.core.db.ODatabaseInternal;
+import com.orientechnologies.orient.core.record.OElement;
 import com.orientechnologies.orient.core.record.impl.ODocument;
+import com.orientechnologies.orient.core.sql.executor.OResult;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.spatial4j.shape.Point;
 import org.locationtech.spatial4j.shape.Rectangle;
@@ -31,6 +33,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class OShapeFactory extends OComplexShapeBuilder {
 
@@ -91,6 +94,15 @@ public class OShapeFactory extends OComplexShapeBuilder {
     }
     if (obj instanceof ODocument) {
       return fromDoc((ODocument) obj);
+    }
+    if (obj instanceof OResult) {
+      final OElement oElement = ((OResult) obj).toElement();
+      // currently all implementations of .toElement() return ODocument, but if not
+      // we need a method to hint us the result of .toElement(). We don't want to call it
+      // if we know the result won't be ODocument
+      if (oElement instanceof ODocument) {
+        return fromDoc((ODocument)oElement);
+      }
     }
     if (obj instanceof Map) {
       Map map = (Map) ((Map) obj).get("shape");

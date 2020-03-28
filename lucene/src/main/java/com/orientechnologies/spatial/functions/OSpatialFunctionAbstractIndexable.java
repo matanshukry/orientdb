@@ -30,6 +30,7 @@ import com.orientechnologies.orient.core.sql.parser.*;
 import com.orientechnologies.spatial.index.OLuceneSpatialIndex;
 import com.orientechnologies.spatial.shape.OShapeFactory;
 import com.orientechnologies.spatial.strategy.SpatialQueryBuilderAbstract;
+import org.locationtech.spatial4j.shape.Shape;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -38,8 +39,6 @@ import java.util.stream.Collectors;
  * Created by Enrico Risa on 31/08/15.
  */
 public abstract class OSpatialFunctionAbstractIndexable extends OSpatialFunctionAbstract implements OIndexableSQLFunction {
-
-  OShapeFactory factory = OShapeFactory.INSTANCE;
 
   public OSpatialFunctionAbstractIndexable(String iName, int iMinParams, int iMaxParams) {
     super(iName, iMinParams, iMaxParams);
@@ -169,5 +168,4 @@ public abstract class OSpatialFunctionAbstractIndexable extends OSpatialFunction
 
     return false;
   }
-
 }
